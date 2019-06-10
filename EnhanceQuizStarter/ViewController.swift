@@ -152,6 +152,9 @@ class ViewController: UIViewController {
         questionsAsked += 1
         timer.invalidate()
         
+        
+        
+        
         if (sender === buttonOne && correctAnswer == buttonOne.currentTitle) || (sender === buttonTwo && correctAnswer == buttonTwo.currentTitle) || (sender === buttonThree && correctAnswer == buttonThree.currentTitle) || (sender === buttonFour && correctAnswer == buttonFour.currentTitle) {
             
             soundEffects.loadCorrectSound()
