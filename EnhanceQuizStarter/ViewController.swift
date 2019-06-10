@@ -36,7 +36,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var answerField: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
-    
+    @IBOutlet weak var lightningRoundLabel: UILabel!
+        
+    //UISwitch
+    @IBOutlet weak var lightningSwitch: UISwitch!
+
     let questionsPerRound = 4
     var questionsAsked = 0
     var correctQuestions = 0
@@ -44,12 +48,9 @@ class ViewController: UIViewController {
     
     var gameSound: SystemSoundID = 0
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        runTimer()
-        
         soundEffects.loadGameStartSound()
         soundEffects.playGameStartSound()
         displayQuestion()
@@ -65,9 +66,12 @@ class ViewController: UIViewController {
     // MARK: - Helpers
     
     func displayQuestion() {
+        if lightningSwitch.isOn == false {
+            timerLabel.isHidden = true
+        }
+        
         randomNumberGenerator()
         resetTimer()
-        runTimer()
         
         //If the random number that is selected has already been used (which is recorded in the 'reptitionChecker') it will generate another random number.
         while reptitionStopper.contains(indexOfSelectedQuestion) {
@@ -98,20 +102,24 @@ class ViewController: UIViewController {
         timerLabel.isHidden = true
         disableAnswerButtons()
         
+        //Hide the lightning Label and Switch
+        hideLightning()
+        
         // Display play again button
         playAgainButton.isHidden = false
         
         nextQuestion.isHidden = true
         nextQuestion.isEnabled = false
         
+        
+        
         if correctQuestions <= 0 {
             questionField.text = "Not Great!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
             answerField.isHidden = true
         } else {
-            questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
+            questionField.text = "Well Done!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
             answerField.isHidden = true
         }
-        
         
         questionField.textColor = UIColor.white
     }
@@ -120,27 +128,23 @@ class ViewController: UIViewController {
         if questionsAsked == questionsPerRound {
             // Game is over
             displayScore()
+            lightningSwitch.isOn = false
             correctQuestions = 0
         } else {
             // Continue game
-            timerLabel.isHidden = false
             enableAnswerButtons()
             buttonAlphaReset()
-            displayQuestion()
+            unHideLigtning()
+            if lightningSwitch.isOn == true {
+                displayQuestion()
+                resetTimer()
+                runTimer()
+            } else {
+                displayQuestion()
+            }
         }
     }
-    
-    func loadNextRound(delay seconds: Int) {
-        // Converts a delay in seconds to nanoseconds as signed 64 bit integer
-        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
-        // Calculates a time value to execute the method given current time and delay
-        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
-        
-        // Executes the nextRound method at the dispatch time on the main queue
-        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-            self.nextRound()
-        }
-    }
+
     
     
     // MARK: - Actions
@@ -151,9 +155,6 @@ class ViewController: UIViewController {
 
         questionsAsked += 1
         timer.invalidate()
-        
-        
-        
         
         if (sender === buttonOne && correctAnswer == buttonOne.currentTitle) || (sender === buttonTwo && correctAnswer == buttonTwo.currentTitle) || (sender === buttonThree && correctAnswer == buttonThree.currentTitle) || (sender === buttonFour && correctAnswer == buttonFour.currentTitle) {
             
@@ -277,8 +278,29 @@ class ViewController: UIViewController {
         buttonFour.alpha = 1.0
     }
     
+    func hideLightning() {
+        lightningSwitch.isHidden = true
+        lightningRoundLabel.isHidden = true
+    }
+    
+    func unHideLigtning() {
+        lightningSwitch.isHidden = false
+        lightningRoundLabel.isHidden = false
+    }
+    
     
     //timer stuff
+    
+    @IBAction func lightningSwitchAction(_ sender: Any) {
+        if lightningSwitch.isOn == true {
+            timerLabel.isHidden = false
+            runTimer()
+        } else if lightningSwitch.isOn == false {
+            timerLabel.isHidden = true
+        }
+    }
+    
+    
     @objc func updateTimer() {
         if seconds < 1 {
             timer.invalidate()
