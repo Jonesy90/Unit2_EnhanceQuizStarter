@@ -65,7 +65,10 @@ class ViewController: UIViewController {
     
     // MARK: - Helpers
     
-    func displayQuestion() {
+        func displayQuestion() {
+            
+        questionsAvailable()
+        
         if lightningSwitch.isOn == false {
             timerLabel.isHidden = true
         }
@@ -78,16 +81,20 @@ class ViewController: UIViewController {
             randomNumberGenerator()
         }
         
+        //Picks a question from the [String: String] struct we have from 'triviaQuestions'.
         let questionDictionary = triviaQuestions.questions[indexOfSelectedQuestion]
         
+        //Adds the int value to the 'reptitionStopper' [Int].
         reptitionStopper.append(indexOfSelectedQuestion)
         
+        //Populates the UILabel and UIButton text fields.
         questionField.text = questionDictionary["Question"]
         buttonOne.setTitle(questionDictionary["OptionOne"], for: .normal)
         buttonTwo.setTitle(questionDictionary["OptionTwo"], for: .normal)
         buttonThree.setTitle(questionDictionary["OptionThree"], for: .normal)
         buttonFour.setTitle(questionDictionary["OptionFour"], for: .normal)
 
+        //Hides these buttons until they're needed.
         playAgainButton.isHidden = true
         nextQuestion.isHidden = true
         
@@ -144,7 +151,28 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    
+    
+    
+    func questionsAvailable() {
+        unHideAnswerButtons()
+        let questionsAvailable = (triviaQuestions.questions[indexOfSelectedQuestion].count) - 2
+        
+        if questionsAvailable == 4 {
+            print("Questions Available- \(questionsAvailable)")
+        } else if questionsAvailable == 3 {
+            print("Questions Available- \(questionsAvailable)")
+            buttonFour.isHidden = true
+        } else if questionsAvailable == 2 {
+            print("Questions Available- \(questionsAvailable)")
+            buttonFour.isHidden = true
+            buttonThree.isHidden = true
+        }
+    }
 
+    
+    
     
     
     // MARK: - Actions
@@ -226,7 +254,6 @@ class ViewController: UIViewController {
         }
             
             nextQuestion.isHidden = false
-//            loadNextRound(delay: 2)
     
     }
     
@@ -249,7 +276,10 @@ class ViewController: UIViewController {
     }
     
     
-
+    
+    
+    
+    
     
     
     
@@ -268,6 +298,13 @@ class ViewController: UIViewController {
         buttonThree.isEnabled = true
         buttonFour.isEnabled = true
         nextQuestion.isEnabled = true
+    }
+    
+    func unHideAnswerButtons() {
+        buttonOne.isHidden = false
+        buttonTwo.isHidden = false
+        buttonThree.isHidden = false
+        buttonFour.isHidden = false
     }
     
     func buttonAlphaReset() {

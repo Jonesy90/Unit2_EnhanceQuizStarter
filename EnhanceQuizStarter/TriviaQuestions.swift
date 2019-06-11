@@ -15,7 +15,7 @@ struct TriviaQuestions {
             "OptionOne" : "George Washington",
             "OptionTwo" : "Franklin D.Roosevelt", //CORRECT
             "OptionThree" : "Woodrow Wilson",
-            "OptionFour" : "Andrew Jackson",
+//            "OptionFour" : "Andrew Jackson",
             "Answer" : "Franklin D.Roosevelt",
         ],
         [
@@ -23,7 +23,7 @@ struct TriviaQuestions {
             "OptionOne" : "Nigeria", //CORRECT
             "OptionTwo" : "Russia",
             "OptionThree" : "Iran",
-            "OptionFour" : "Vietnam",
+//            "OptionFour" : "Vietnam",
             "Answer" : "Nigeria",
         ],
         [
@@ -31,7 +31,7 @@ struct TriviaQuestions {
             "OptionOne" : "1918",
             "OptionTwo" : "1919",
             "OptionThree" : "1945", //CORRECT
-            "OptionFour" : "1954",
+//            "OptionFour" : "1954",
             "Answer" : "1945",
         ],
         [
@@ -39,7 +39,7 @@ struct TriviaQuestions {
             "OptionOne" : "Paris",
             "OptionTwo" : "Washington D.C",
             "OptionThree" : "New York", //CORRECT
-            "OptionFour" : "Boston",
+//            "OptionFour" : "Boston",
             "Answer" :  "New York",
         ],
         [
